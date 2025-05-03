@@ -11,6 +11,8 @@ void main() async {
   runApp(
     GetMaterialApp(
       theme: ThemeData(fontFamily: GoogleFonts.poppins().fontFamily),
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
       defaultTransition: Transition.cupertino,
       title: "TODO",
