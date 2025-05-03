@@ -11,13 +11,13 @@ class AuthenticationView extends GetView<AuthenticationController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FlutterLogin(
-        onSignup: (p0) {
+        onSignup: (value) {
           return null;
         },
-        onLogin: (p0) {
+        onLogin: (value) {
           return null;
         },
-        onRecoverPassword: (p0) {
+        onRecoverPassword: (value) {
           return null;
         },
       ),
