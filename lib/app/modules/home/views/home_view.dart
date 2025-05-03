@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../controllers/home_controller.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -61,6 +62,7 @@ class HomeView extends GetView<HomeController> {
             );
           }
           return ListView.builder(
+            padding: EdgeInsets.all(8),
             itemCount: controller.userData.value.todos?.length,
             itemBuilder: (context, index) {
               final todo = controller.userData.value.todos![index];
@@ -149,7 +151,7 @@ class HomeView extends GetView<HomeController> {
                                 ),
                                 decoration: BoxDecoration(
                                   color: priorityColor.withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(14),
                                 ),
                                 child: Text(
                                   todo.priority?.toUpperCase() ?? 'NO PRIORITY',
@@ -163,7 +165,16 @@ class HomeView extends GetView<HomeController> {
                               const SizedBox(width: 12),
                               if (todo.completedAt != null)
                                 Text(
-                                  'Completed: ${todo.completedAt!.toLocal().toString().split(' ')[0]}',
+                                  'Completed: ${timeago.format(todo.completedAt ?? DateTime.now())}',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.green[700],
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                              if (todo.completedAt == null)
+                                Text(
+                                  'created: ${timeago.format(todo.createdAt ?? DateTime.now())}',
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.green[700],
