@@ -45,10 +45,10 @@ class AuthenticationController extends GetxController {
     }
   }
 
-  Future<String?> login(String username, String password) async {
+  Future<String?> login(String email, String password) async {
     try {
       isLoading.value = true;
-      final data = {'username': username, 'password': password};
+      final data = {'email': email, 'password': password};
       final response = await _loginProvider.login(data);
       if (response != null) {
         Constants.storage.write(Constants.userIdKey, response['user']['id']);
