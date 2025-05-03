@@ -1,14 +1,13 @@
 import 'package:fullstack_todo_app/app/data/Constants/consts.dart';
-import 'package:fullstack_todo_app/app/modules/Authentication/Models/user_info_model.dart';
 import 'package:get/get.dart';
 
 class LoginProvider extends GetConnect {
-  Future<UserInfoModel?> login(Map<String, dynamic> data) async {
+  Future login(Map<String, dynamic> data) async {
     try {
       final response = await post('${Constants.baseUrl}/api/auth/login', data);
       if (response.body != null) {
         if (response.status.isOk) {
-          return userInfoModelFromJson(response.bodyString!);
+          return response.body;
         } else if (response.status.isServerError) {
           throw 'Server is not reachable\nPlease try again later';
         } else if (response.status.isNotFound) {
