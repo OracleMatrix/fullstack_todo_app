@@ -33,10 +33,10 @@ class AuthenticationController extends GetxController {
         userInfo.value = response;
         Constants.storage.write(Constants.userIdKey, userInfo.value.user!.id);
         Constants.storage.write(
-          Constants.userIdKey,
+          Constants.userNameKey,
           userInfo.value.user!.username,
         );
-        Constants.storage.write(Constants.userIdKey, userInfo.value.token);
+        Constants.storage.write(Constants.tokenKey, userInfo.value.token);
         Get.offAllNamed(Routes.HOME);
         return null;
       } else {
@@ -61,13 +61,10 @@ class AuthenticationController extends GetxController {
           userInfo.value.user!.id,
         );
         await Constants.storage.write(
-          Constants.userIdKey,
+          Constants.userNameKey,
           userInfo.value.user!.username,
         );
-        await Constants.storage.write(
-          Constants.userIdKey,
-          userInfo.value.token,
-        );
+        await Constants.storage.write(Constants.tokenKey, userInfo.value.token);
         Get.offAllNamed(Routes.HOME);
         return null;
       } else {
