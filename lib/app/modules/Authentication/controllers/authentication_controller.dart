@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:fullstack_todo_app/app/data/Constants/consts.dart';
 import 'package:fullstack_todo_app/app/modules/Authentication/providers/login_provider.dart';
 import 'package:fullstack_todo_app/app/modules/Authentication/providers/register_provider.dart';
@@ -18,7 +17,11 @@ class AuthenticationController extends GetxController {
 
   var isLoading = false.obs;
 
-  Future register(String username, String email, String password) async {
+  Future<String?> register(
+    String username,
+    String email,
+    String password,
+  ) async {
     try {
       isLoading.value = true;
       final data = {'username': username, 'email': email, 'password': password};
@@ -31,21 +34,18 @@ class AuthenticationController extends GetxController {
         );
         Constants.storage.write(Constants.userIdKey, response['token']);
         Get.offAllNamed(Routes.HOME);
+        return null;
+      } else {
+        return 'Registration failed';
       }
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        e.toString(),
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        icon: Icon(Icons.error, color: Colors.white),
-      );
+      return e.toString();
     } finally {
       isLoading.value = false;
     }
   }
 
-  Future login(String username, String password) async {
+  Future<String?> login(String username, String password) async {
     try {
       isLoading.value = true;
       final data = {'username': username, 'password': password};
@@ -58,15 +58,12 @@ class AuthenticationController extends GetxController {
         );
         Constants.storage.write(Constants.userIdKey, response['token']);
         Get.offAllNamed(Routes.HOME);
+        return null;
+      } else {
+        return 'Login failed';
       }
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        e.toString(),
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        icon: Icon(Icons.error, color: Colors.white),
-      );
+      return e.toString();
     } finally {
       isLoading.value = false;
     }
