@@ -64,13 +64,121 @@ class HomeView extends GetView<HomeController> {
             itemCount: controller.userData.value.todos?.length,
             itemBuilder: (context, index) {
               final todo = controller.userData.value.todos![index];
+
+              Color priorityColor;
+              switch (todo.priority?.toLowerCase()) {
+                case 'high':
+                  priorityColor = Colors.red;
+                  break;
+                case 'medium':
+                  priorityColor = Colors.orange;
+                  break;
+                case 'low':
+                  priorityColor = Colors.green;
+                  break;
+                default:
+                  priorityColor = Colors.grey;
+              }
+
+              IconData statusIcon;
+              Color statusColor;
+              switch (todo.status?.toLowerCase()) {
+                case 'completed':
+                  statusIcon = Icons.check_circle;
+                  statusColor = Colors.green;
+                  break;
+                case 'pending':
+                  statusIcon = Icons.pending_actions;
+                  statusColor = Colors.orange;
+                  break;
+                case 'in-progress':
+                  statusIcon = Icons.hourglass_empty_rounded;
+                  statusColor = Colors.blue;
+                  break;
+                default:
+                  statusIcon = Icons.help_outline;
+                  statusColor = Colors.grey;
+              }
+
               return Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8.0,
+                  vertical: 4,
+                ),
                 child: Card(
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   child: ListTile(
-                    title: Text(todo.title ?? 'No title!'),
-                    subtitle: Text(todo.description ?? 'No description!'),
-                    leading: Icon(Icons.task, color: Colors.blue),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    leading: Icon(statusIcon, color: statusColor, size: 32),
+                    title: Text(
+                      todo.title ?? 'No title',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (todo.description != null &&
+                            todo.description!.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: Text(
+                              todo.description!,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                          ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 6.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: priorityColor.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  todo.priority?.toUpperCase() ?? 'NO PRIORITY',
+                                  style: TextStyle(
+                                    color: priorityColor,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              if (todo.completedAt != null)
+                                Text(
+                                  'Completed: ${todo.completedAt!.toLocal().toString().split(' ')[0]}',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.green[700],
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                    onTap: () {
+                      // Optional: Navigate to todo details or edit page
+                    },
                   ),
                 ),
               );
