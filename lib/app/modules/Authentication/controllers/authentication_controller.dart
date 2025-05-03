@@ -1,4 +1,5 @@
 import 'package:fullstack_todo_app/app/data/Constants/consts.dart';
+import 'package:fullstack_todo_app/app/modules/Authentication/Models/user_info_model.dart';
 import 'package:fullstack_todo_app/app/modules/Authentication/providers/login_provider.dart';
 import 'package:fullstack_todo_app/app/modules/Authentication/providers/register_provider.dart';
 import 'package:fullstack_todo_app/app/routes/app_pages.dart';
@@ -17,6 +18,8 @@ class AuthenticationController extends GetxController {
 
   var isLoading = false.obs;
 
+  var userInfo = UserInfoModel().obs;
+
   Future<String?> register(
     String username,
     String email,
@@ -27,12 +30,13 @@ class AuthenticationController extends GetxController {
       final data = {'username': username, 'email': email, 'password': password};
       final response = await _registerProvider.register(data);
       if (response != null) {
-        Constants.storage.write(Constants.userIdKey, response['user']['id']);
+        userInfo.value = response;
+        Constants.storage.write(Constants.userIdKey, userInfo.value.user!.id);
         Constants.storage.write(
           Constants.userIdKey,
-          response['user']['username'],
+          userInfo.value.user!.username,
         );
-        Constants.storage.write(Constants.userIdKey, response['token']);
+        Constants.storage.write(Constants.userIdKey, userInfo.value.token);
         Get.offAllNamed(Routes.HOME);
         return null;
       } else {
@@ -51,12 +55,13 @@ class AuthenticationController extends GetxController {
       final data = {'email': email, 'password': password};
       final response = await _loginProvider.login(data);
       if (response != null) {
-        Constants.storage.write(Constants.userIdKey, response['user']['id']);
+        userInfo.value = response;
+        Constants.storage.write(Constants.userIdKey, userInfo.value.user!.id);
         Constants.storage.write(
           Constants.userIdKey,
-          response['user']['username'],
+          userInfo.value.user!.username,
         );
-        Constants.storage.write(Constants.userIdKey, response['token']);
+        Constants.storage.write(Constants.userIdKey, userInfo.value.token);
         Get.offAllNamed(Routes.HOME);
         return null;
       } else {
