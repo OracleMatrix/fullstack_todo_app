@@ -32,4 +32,10 @@ class HomeController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  @override
+  void onInit() {
+    getUserData();
+    super.onInit();
+  }
 }
