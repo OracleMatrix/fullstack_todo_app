@@ -56,12 +56,18 @@ class AuthenticationController extends GetxController {
       final response = await _loginProvider.login(data);
       if (response != null) {
         userInfo.value = response;
-        Constants.storage.write(Constants.userIdKey, userInfo.value.user!.id);
-        Constants.storage.write(
+        await Constants.storage.write(
+          Constants.userIdKey,
+          userInfo.value.user!.id,
+        );
+        await Constants.storage.write(
           Constants.userIdKey,
           userInfo.value.user!.username,
         );
-        Constants.storage.write(Constants.userIdKey, userInfo.value.token);
+        await Constants.storage.write(
+          Constants.userIdKey,
+          userInfo.value.token,
+        );
         Get.offAllNamed(Routes.HOME);
         return null;
       } else {
