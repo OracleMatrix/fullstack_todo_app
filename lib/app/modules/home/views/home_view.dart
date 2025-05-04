@@ -1,9 +1,11 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:fullstack_todo_app/app/data/Constants/consts.dart';
 import 'package:fullstack_todo_app/app/routes/app_pages.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../controllers/home_controller.dart';
@@ -18,6 +20,15 @@ class HomeView extends GetView<HomeController> {
       onRefresh: () => controller.getUserData(),
       child: Scaffold(
         appBar: AppBar(
+          actions: [
+            IconButton(
+              onPressed: () async {
+                await GetStorage().remove(Constants.tokenKey);
+                Get.offAllNamed(Routes.AUTHENTICATION);
+              },
+              icon: Icon(Icons.logout_rounded),
+            ),
+          ],
           title: const Text('T O D O'),
           centerTitle: true,
           bottom: PreferredSize(
