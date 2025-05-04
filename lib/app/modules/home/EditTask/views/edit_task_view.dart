@@ -155,9 +155,9 @@ class EditTaskView extends GetView<EditTaskController> {
             child: FloatingActionButton.extended(
               heroTag: 'delete',
               backgroundColor: Colors.red,
-              onPressed: () {
-                controller.deleteTask(todoId);
-                controller.updateStatus(todoId);
+              onPressed: () async {
+                await controller.deleteTask(todoId);
+                await controller.updateStatus(todoId);
               },
               icon: Icon(Icons.delete),
               label: Text('Delete'),
