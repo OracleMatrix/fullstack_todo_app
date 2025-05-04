@@ -9,6 +9,7 @@ class SplashView extends GetView<SplashController> {
   const SplashView({super.key});
   @override
   Widget build(BuildContext context) {
+    controller.checkUser();
     return Scaffold(
       body: Center(
         child: LoadingAnimationWidget.beat(color: Colors.white, size: 80),
