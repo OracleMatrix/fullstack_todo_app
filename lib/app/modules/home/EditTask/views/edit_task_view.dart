@@ -88,13 +88,34 @@ class EditTaskView extends GetView<EditTaskController> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.blue,
-        onPressed: () {
-          controller.updateTodo(todoId);
-        },
-        icon: Icon(Icons.save),
-        label: Text('Save'),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton.extended(
+              heroTag: 'save',
+              backgroundColor: Colors.blue,
+              onPressed: () {
+                controller.updateTodo(todoId);
+              },
+              icon: Icon(Icons.save),
+              label: Text('Save'),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton.extended(
+              heroTag: 'delete',
+              backgroundColor: Colors.red,
+              onPressed: () {
+                controller.deleteTask(todoId);
+              },
+              icon: Icon(Icons.delete),
+              label: Text('Delete'),
+            ),
+          ),
+        ],
       ),
     );
   }
