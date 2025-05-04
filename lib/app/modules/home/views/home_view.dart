@@ -214,7 +214,7 @@ class HomeView extends GetView<HomeController> {
                     onTap:
                         () => Get.toNamed(
                           Routes.EDIT_TASK,
-                          arguments: {'todoId': todo.id},
+                          arguments: {'todoId': todo.id, 'data': todo},
                         ),
                   ),
                 ),
