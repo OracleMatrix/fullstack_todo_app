@@ -9,6 +9,8 @@ class EditTaskView extends GetView<EditTaskController> {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
+    final arguments = Get.arguments;
+    final todoId = arguments['todoId'];
     return Scaffold(
       appBar: AppBar(title: const Text('Edit TODO'), centerTitle: true),
       body: Form(
@@ -52,9 +54,47 @@ class EditTaskView extends GetView<EditTaskController> {
                   maxLines: 5,
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8.0,
+                  vertical: 12,
+                ),
+                child: Obx(
+                  () => DropdownButtonFormField<String>(
+                    value: controller.priority.value,
+                    decoration: InputDecoration(
+                      labelText: 'Priority',
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    items: const [
+                      DropdownMenuItem(value: 'low', child: Text('Low')),
+                      DropdownMenuItem(value: 'medium', child: Text('Medium')),
+                      DropdownMenuItem(value: 'high', child: Text('High')),
+                    ],
+                    onChanged: (value) {
+                      if (value != null) {
+                        controller.priority.value = value;
+                      }
+                    },
+                  ),
+                ),
+              ),
             ],
           ),
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Colors.blue,
+        onPressed: () {
+          controller.updateTodo(todoId);
+        },
+        icon: Icon(Icons.save),
+        label: Text('Save'),
       ),
     );
   }

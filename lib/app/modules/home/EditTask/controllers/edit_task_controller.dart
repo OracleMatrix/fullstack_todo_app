@@ -23,12 +23,13 @@ class EditTaskController extends GetxController {
       final data = {
         'title': titleController.value.text,
         'description': descriptionController.value.text,
-        'priority': priority,
+        'priority': priority.value,
         'userId': await GetStorage().read(Constants.userIdKey),
       };
       final response = await _updateTodoProvider.updateTodo(data, todoId);
 
       if (response != null) {
+        Get.back();
         Get.snackbar(
           'Success',
           response,
