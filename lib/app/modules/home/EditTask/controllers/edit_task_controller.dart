@@ -96,17 +96,7 @@ class EditTaskController extends GetxController {
     try {
       isLoading.value = true;
       final data = {'status': status.value};
-      final response = await _updateStatusProvider.updateStatus(data, todoId);
-      if (response != null) {
-        Get.back();
-        Get.snackbar(
-          'Success',
-          response['message'],
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-          icon: Icon(Icons.check_circle, color: Colors.white),
-        );
-      }
+      await _updateStatusProvider.updateStatus(data, todoId);
     } catch (e) {
       Get.snackbar(
         'Error',
