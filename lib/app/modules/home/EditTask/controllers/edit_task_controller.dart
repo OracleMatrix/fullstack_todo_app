@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fullstack_todo_app/app/data/Constants/consts.dart';
+import 'package:fullstack_todo_app/app/modules/home/EditTask/providers/update_status_provider.dart';
 import 'package:fullstack_todo_app/app/modules/home/EditTask/providers/update_todo_provider.dart';
 import 'package:fullstack_todo_app/app/modules/home/providers/delete_task_provider.dart';
 import 'package:get/get.dart';
@@ -24,6 +25,11 @@ class EditTaskController extends GetxController {
 
   var titleController = TextEditingController().obs;
   var descriptionController = TextEditingController().obs;
+
+  var _updateStatusProvider = UpdateStatusProvider();
+  get updateStatusProvider => _updateStatusProvider;
+
+  set updateStatusProvider(var value) => _updateStatusProvider = value;
 
   Future updateTodo(int todoId) async {
     try {
@@ -68,6 +74,34 @@ class EditTaskController extends GetxController {
         Get.snackbar(
           'Success',
           response,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+          icon: Icon(Icons.check_circle, color: Colors.white),
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        e.toString(),
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        icon: Icon(Icons.error, color: Colors.white),
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future updateStatus(int todoId) async {
+    try {
+      isLoading.value = true;
+      final data = {'status': status.value};
+      final response = await _updateStatusProvider.updateStatus(data, todoId);
+      if (response != null) {
+        Get.back();
+        Get.snackbar(
+          'Success',
+          response['message'],
           backgroundColor: Colors.green,
           colorText: Colors.white,
           icon: Icon(Icons.check_circle, color: Colors.white),
