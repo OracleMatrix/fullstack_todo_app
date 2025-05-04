@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:fullstack_todo_app/app/data/Constants/consts.dart';
+import 'package:fullstack_todo_app/app/modules/home/EditTask/controllers/edit_task_controller.dart';
 import 'package:fullstack_todo_app/app/routes/app_pages.dart';
 
 import 'package:get/get.dart';
@@ -9,12 +10,14 @@ import 'package:get_storage/get_storage.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../controllers/home_controller.dart';
+
 import 'package:timeago/timeago.dart' as timeago;
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
   @override
   Widget build(BuildContext context) {
+    final EditTaskController editTaskController = Get.put(EditTaskController());
     controller.getUserData();
     return RefreshIndicator(
       onRefresh: () => controller.getUserData(),
@@ -87,6 +90,7 @@ class HomeView extends GetView<HomeController> {
           }
           return ListView.builder(
             padding: EdgeInsets.all(8),
+            physics: AlwaysScrollableScrollPhysics(),
             itemCount: controller.userData.value.todos?.length,
             itemBuilder: (context, index) {
               final todo = controller.userData.value.todos![index];
@@ -126,96 +130,163 @@ class HomeView extends GetView<HomeController> {
                   statusColor = Colors.grey;
               }
 
-              return Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8.0,
-                  vertical: 4,
-                ),
-                child: Card(
-                  elevation: 3,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    leading: Icon(statusIcon, color: statusColor, size: 32),
-                    title: Text(
-                      todo.title ?? 'No title',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+              return Dismissible(
+                key: Key(todo.id.toString()),
+                background: Container(
+                  color: Colors.green,
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(left: 20),
+                  child: Row(
+                    children: [
+                      Icon(Icons.check, color: Colors.white),
+                      SizedBox(width: 8),
+                      Text(
+                        'Mark as Done',
+                        style: TextStyle(color: Colors.white),
                       ),
+                    ],
+                  ),
+                ),
+                secondaryBackground: Container(
+                  color: Colors.red,
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.only(right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Icon(Icons.delete, color: Colors.white),
+                      SizedBox(width: 8),
+                      Text('Delete', style: TextStyle(color: Colors.white)),
+                    ],
+                  ),
+                ),
+                confirmDismiss: (direction) async {
+                  if (direction == DismissDirection.startToEnd) {
+                    // Swipe left to right: mark as done
+                    await controller.markAsCompleted(todo.id!);
+                    // Remove the item from the list to update UI
+                    controller.userData.value.todos?.removeAt(index);
+                    controller.userData.refresh();
+                    return true; // allow dismiss animation to remove item
+                  } else if (direction == DismissDirection.endToStart) {
+                    // Swipe right to left: delete
+                    final confirm = await Get.defaultDialog<bool>(
+                      title: 'Confirm Delete',
+                      middleText: 'Are you sure you want to delete this task?',
+                      textConfirm: 'Delete',
+                      textCancel: 'Cancel',
+                      confirmTextColor: Colors.white,
+                      onConfirm: () {
+                        Get.back(result: true);
+                      },
+                      onCancel: () {
+                        Get.back(result: false);
+                      },
+                    );
+                    if (confirm == true) {
+                      await editTaskController.deleteTask(todo.id!);
+                      // Remove the item from the list to update UI
+                      controller.userData.value.todos?.removeAt(index);
+                      controller.userData.refresh();
+                      return true; // allow dismiss animation to remove item
+                    } else {
+                      return false;
+                    }
+                  }
+                  return false;
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8.0,
+                    vertical: 4,
+                  ),
+                  child: Card(
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (todo.description != null &&
-                            todo.description!.isNotEmpty)
-                          Padding(
-                            padding: const EdgeInsets.only(top: 4.0),
-                            child: Text(
-                              todo.description!,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey[700],
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      leading: Icon(statusIcon, color: statusColor, size: 32),
+                      title: Text(
+                        todo.title ?? 'No title',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (todo.description != null &&
+                              todo.description!.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4.0),
+                              child: Text(
+                                todo.description!,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey[700],
+                                ),
                               ),
                             ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 6.0),
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: priorityColor.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                  child: Text(
+                                    todo.priority?.toUpperCase() ??
+                                        'NO PRIORITY',
+                                    style: TextStyle(
+                                      color: priorityColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                if (todo.completedAt != null)
+                                  Text(
+                                    'Completed: ${timeago.format(todo.completedAt ?? DateTime.now())}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.green[700],
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                  ),
+                                if (todo.completedAt == null)
+                                  Text(
+                                    'created: ${timeago.format(todo.createdAt ?? DateTime.now())}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.green[700],
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 6.0),
-                          child: Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 4,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: priorityColor.withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(14),
-                                ),
-                                child: Text(
-                                  todo.priority?.toUpperCase() ?? 'NO PRIORITY',
-                                  style: TextStyle(
-                                    color: priorityColor,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              if (todo.completedAt != null)
-                                Text(
-                                  'Completed: ${timeago.format(todo.completedAt ?? DateTime.now())}',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.green[700],
-                                    fontStyle: FontStyle.italic,
-                                  ),
-                                ),
-                              if (todo.completedAt == null)
-                                Text(
-                                  'created: ${timeago.format(todo.createdAt ?? DateTime.now())}',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.green[700],
-                                    fontStyle: FontStyle.italic,
-                                  ),
-                                ),
-                            ],
+                        ],
+                      ),
+                      trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                      onTap:
+                          () => Get.toNamed(
+                            Routes.EDIT_TASK,
+                            arguments: {'todoId': todo.id, 'data': todo},
                           ),
-                        ),
-                      ],
                     ),
-                    trailing: Icon(Icons.arrow_forward_ios, size: 16),
-                    onTap:
-                        () => Get.toNamed(
-                          Routes.EDIT_TASK,
-                          arguments: {'todoId': todo.id, 'data': todo},
-                        ),
                   ),
                 ),
               );
