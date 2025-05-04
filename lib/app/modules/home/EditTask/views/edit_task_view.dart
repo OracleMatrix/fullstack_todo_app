@@ -49,7 +49,7 @@ class EditTaskView extends GetView<EditTaskController> {
                   validator: (value) {
                     return null;
                   },
-                  maxLines: 10,
+                  maxLines: 5,
                 ),
               ),
             ],
