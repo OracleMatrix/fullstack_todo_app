@@ -143,8 +143,9 @@ class EditTaskView extends GetView<EditTaskController> {
             child: FloatingActionButton.extended(
               heroTag: 'save',
               backgroundColor: Colors.blue,
-              onPressed: () {
-                controller.updateTodo(todoId);
+              onPressed: () async {
+                await controller.updateTodo(todoId);
+                await controller.updateStatus(todoId);
               },
               icon: Icon(Icons.save),
               label: Text('Save'),
