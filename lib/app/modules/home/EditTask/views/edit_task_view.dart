@@ -157,6 +157,7 @@ class EditTaskView extends GetView<EditTaskController> {
               backgroundColor: Colors.red,
               onPressed: () {
                 controller.deleteTask(todoId);
+                controller.updateStatus(todoId);
               },
               icon: Icon(Icons.delete),
               label: Text('Delete'),
