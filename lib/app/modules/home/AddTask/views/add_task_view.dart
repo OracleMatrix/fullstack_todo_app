@@ -19,6 +19,14 @@ class AddTaskView extends GetView<AddTaskController> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
+                child: Image.asset(
+                  'assets/images/work-order.png',
+                  width: Get.width,
+                  height: Get.height * 0.15,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   controller: controller.titleController.value,
                   decoration: InputDecoration(
