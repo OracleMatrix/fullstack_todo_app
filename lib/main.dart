@@ -14,7 +14,7 @@ void main() async {
       themeMode: ThemeMode.dark,
       darkTheme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      defaultTransition: Transition.cupertino,
+      defaultTransition: Transition.fadeIn,
       title: "TODO",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
