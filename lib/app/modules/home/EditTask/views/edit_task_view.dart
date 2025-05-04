@@ -8,15 +8,52 @@ class EditTaskView extends GetView<EditTaskController> {
   const EditTaskView({super.key});
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('EditTaskView'),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Text(
-          'EditTaskView is working',
-          style: TextStyle(fontSize: 20),
+      appBar: AppBar(title: const Text('Edit TODO'), centerTitle: true),
+      body: Form(
+        key: formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: controller.titleController.value,
+                  decoration: InputDecoration(
+                    hintText: 'Title',
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: controller.descriptionController.value,
+                  decoration: InputDecoration(
+                    hintText: 'Description',
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  validator: (value) {
+                    return null;
+                  },
+                  maxLines: 10,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
