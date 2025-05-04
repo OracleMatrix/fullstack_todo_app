@@ -14,7 +14,17 @@ class HomeView extends GetView<HomeController> {
     return RefreshIndicator(
       onRefresh: () => controller.getUserData(),
       child: Scaffold(
-        appBar: AppBar(title: const Text('T O D O'), centerTitle: true),
+        appBar: AppBar(
+          title: const Text('T O D O'),
+          centerTitle: true,
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(Get.height * 0.07),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SearchBar(hintText: 'Search task...'),
+            ),
+          ),
+        ),
         body: Obx(() {
           if (controller.isLoading.value) {
             return Center(
@@ -196,6 +206,11 @@ class HomeView extends GetView<HomeController> {
             },
           );
         }),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: Colors.blue,
+          child: Icon(Icons.playlist_add_rounded),
+        ),
       ),
     );
   }
