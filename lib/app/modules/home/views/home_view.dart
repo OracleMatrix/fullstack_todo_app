@@ -56,7 +56,7 @@ class HomeView extends GetView<HomeController> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset(
-                  'assets/images/no-task.png',
+                  'assets/images/notes.png',
                   height: Get.height * 0.18,
                   width: Get.width,
                 ),
