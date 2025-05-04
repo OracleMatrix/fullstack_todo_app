@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -15,6 +17,8 @@ class EditTaskView extends GetView<EditTaskController> {
     controller.titleController.value.text = todo.title;
     controller.descriptionController.value.text = todo.description;
     controller.priority.value = todo.priority;
+    controller.status.value = todo.status;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Edit TODO'), centerTitle: true),
       body: Form(
@@ -113,10 +117,14 @@ class EditTaskView extends GetView<EditTaskController> {
                         value: 'in-progress',
                         child: Text('in-progress'),
                       ),
+                      DropdownMenuItem(
+                        value: 'completed',
+                        child: Text('Completed'),
+                      ),
                     ],
                     onChanged: (value) {
                       if (value != null) {
-                        controller.priority.value = value;
+                        controller.status.value = value;
                       }
                     },
                   ),
