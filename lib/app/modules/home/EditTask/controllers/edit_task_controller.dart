@@ -20,6 +20,8 @@ class EditTaskController extends GetxController {
 
   final priority = 'low'.obs;
 
+  final status = 'pending'.obs;
+
   var titleController = TextEditingController().obs;
   var descriptionController = TextEditingController().obs;
 
