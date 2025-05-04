@@ -53,23 +53,13 @@ class HomeView extends GetView<HomeController> {
           }
           if (controller.userData.value.todos?.isEmpty ?? [].isNotEmpty) {
             return Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.hourglass_empty,
-                      size: 100,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  Text(
-                    'You have no TODOs yet...!',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(
+                  'assets/images/no-task.png',
+                  height: Get.height * 0.18,
+                  width: Get.width,
+                ),
               ),
             );
           }
