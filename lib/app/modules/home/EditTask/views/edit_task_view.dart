@@ -11,6 +11,10 @@ class EditTaskView extends GetView<EditTaskController> {
     final formKey = GlobalKey<FormState>();
     final arguments = Get.arguments;
     final todoId = arguments['todoId'];
+    final todo = arguments['data'];
+    controller.titleController.value.text = todo.title;
+    controller.descriptionController.value.text = todo.description;
+    controller.priority.value = todo.priority;
     return Scaffold(
       appBar: AppBar(title: const Text('Edit TODO'), centerTitle: true),
       body: Form(
