@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fullstack_todo_app/app/routes/app_pages.dart';
 
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -197,9 +198,11 @@ class HomeView extends GetView<HomeController> {
                       ],
                     ),
                     trailing: Icon(Icons.arrow_forward_ios, size: 16),
-                    onTap: () {
-                      // Optional: Navigate to todo details or edit page
-                    },
+                    onTap:
+                        () => Get.toNamed(
+                          Routes.EDIT_TASK,
+                          arguments: {'todoId': todo.id},
+                        ),
                   ),
                 ),
               );
@@ -207,7 +210,7 @@ class HomeView extends GetView<HomeController> {
           );
         }),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () => Get.toNamed(Routes.ADD_TASK),
           backgroundColor: Colors.blue,
           child: Icon(Icons.playlist_add_rounded),
         ),
