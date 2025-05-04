@@ -7,6 +7,7 @@ abstract class Routes {
   static const AUTHENTICATION = _Paths.AUTHENTICATION;
   static const EDIT_TASK = _Paths.HOME + _Paths.EDIT_TASK;
   static const ADD_TASK = _Paths.HOME + _Paths.ADD_TASK;
+  static const SPLASH = _Paths.SPLASH;
 }
 
 abstract class _Paths {
@@ -15,4 +16,5 @@ abstract class _Paths {
   static const AUTHENTICATION = '/authentication';
   static const EDIT_TASK = '/edit-task';
   static const ADD_TASK = '/add-task';
+  static const SPLASH = '/splash';
 }

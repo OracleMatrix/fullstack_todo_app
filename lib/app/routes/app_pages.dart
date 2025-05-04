@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/Authentication/bindings/authentication_binding.dart';
 import '../modules/Authentication/views/authentication_view.dart';
+import '../modules/Splash/bindings/splash_binding.dart';
+import '../modules/Splash/views/splash_view.dart';
 import '../modules/home/AddTask/bindings/add_task_binding.dart';
 import '../modules/home/AddTask/views/add_task_view.dart';
 import '../modules/home/EditTask/bindings/edit_task_binding.dart';
@@ -38,6 +40,11 @@ class AppPages {
       name: _Paths.AUTHENTICATION,
       page: () => const AuthenticationView(),
       binding: AuthenticationBinding(),
+    ),
+    GetPage(
+      name: _Paths.SPLASH,
+      page: () => const SplashView(),
+      binding: SplashBinding(),
     ),
   ];
 }
