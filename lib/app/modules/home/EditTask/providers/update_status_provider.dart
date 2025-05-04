@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 class UpdateStatusProvider extends GetConnect {
   Future updateStatus(Map<String, dynamic> data, int todoId) async {
     try {
-      final response = await post(
+      final response = await patch(
         '${Constants.baseUrl}/api/todos/$todoId/status',
         data,
         headers: {
