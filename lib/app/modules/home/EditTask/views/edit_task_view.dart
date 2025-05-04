@@ -87,6 +87,41 @@ class EditTaskView extends GetView<EditTaskController> {
                   ),
                 ),
               ),
+              // status
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8.0,
+                  vertical: 12,
+                ),
+                child: Obx(
+                  () => DropdownButtonFormField<String>(
+                    value: controller.status.value,
+                    decoration: InputDecoration(
+                      labelText: 'Status',
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    items: const [
+                      DropdownMenuItem(
+                        value: 'pending',
+                        child: Text('pending'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'in-progress',
+                        child: Text('in-progress'),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      if (value != null) {
+                        controller.priority.value = value;
+                      }
+                    },
+                  ),
+                ),
+              ),
             ],
           ),
         ),
