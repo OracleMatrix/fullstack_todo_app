@@ -8,6 +8,7 @@ abstract class Routes {
   static const EDIT_TASK = _Paths.HOME + _Paths.EDIT_TASK;
   static const ADD_TASK = _Paths.HOME + _Paths.ADD_TASK;
   static const SPLASH = _Paths.SPLASH;
+  static const PROFILE = _Paths.HOME + _Paths.PROFILE;
 }
 
 abstract class _Paths {
@@ -17,4 +18,5 @@ abstract class _Paths {
   static const EDIT_TASK = '/edit-task';
   static const ADD_TASK = '/add-task';
   static const SPLASH = '/splash';
+  static const PROFILE = '/profile';
 }

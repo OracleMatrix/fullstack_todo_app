@@ -8,6 +8,8 @@ import '../modules/home/AddTask/bindings/add_task_binding.dart';
 import '../modules/home/AddTask/views/add_task_view.dart';
 import '../modules/home/EditTask/bindings/edit_task_binding.dart';
 import '../modules/home/EditTask/views/edit_task_view.dart';
+import '../modules/home/Profile/bindings/profile_binding.dart';
+import '../modules/home/Profile/views/profile_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 
@@ -33,6 +35,11 @@ class AppPages {
           name: _Paths.ADD_TASK,
           page: () => const AddTaskView(),
           binding: AddTaskBinding(),
+        ),
+        GetPage(
+          name: _Paths.PROFILE,
+          page: () => const ProfileView(),
+          binding: ProfileBinding(),
         ),
       ],
     ),

@@ -31,9 +31,20 @@ class HomeView extends GetView<HomeController> {
               },
               icon: Icon(Icons.logout_rounded),
             ),
+            IconButton(
+              onPressed: () async {
+                Get.toNamed(Routes.PROFILE);
+              },
+              icon: Icon(Icons.person),
+            ),
           ],
           title: const Text('T O D O'),
           centerTitle: true,
+          elevation: 4,
+          backgroundColor: Colors.blueAccent,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
+          ),
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(Get.height * 0.07),
             child: Padding(
