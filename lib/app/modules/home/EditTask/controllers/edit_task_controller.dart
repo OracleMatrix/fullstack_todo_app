@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fullstack_todo_app/app/data/Constants/consts.dart';
 import 'package:fullstack_todo_app/app/modules/home/EditTask/providers/update_status_provider.dart';
 import 'package:fullstack_todo_app/app/modules/home/EditTask/providers/update_todo_provider.dart';
+import 'package:fullstack_todo_app/app/modules/home/controllers/home_controller.dart';
 import 'package:fullstack_todo_app/app/modules/home/providers/delete_task_provider.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -31,6 +32,8 @@ class EditTaskController extends GetxController {
 
   set updateStatusProvider(var value) => _updateStatusProvider = value;
 
+  final HomeController _homeController = Get.find();
+
   Future updateTodo(int todoId) async {
     try {
       isLoading.value = true;
@@ -43,6 +46,7 @@ class EditTaskController extends GetxController {
       final response = await _updateTodoProvider.updateTodo(data, todoId);
 
       if (response != null) {
+        await _homeController.getUserData();
         Get.back();
         Get.snackbar(
           'Success',
@@ -70,6 +74,7 @@ class EditTaskController extends GetxController {
       isLoading.value = true;
       final response = await _deleteTaskProvider.deletetask(todoId);
       if (response != null) {
+        await _homeController.getUserData();
         Get.back();
         Get.snackbar(
           'Success',
@@ -98,6 +103,7 @@ class EditTaskController extends GetxController {
       final data = {'status': status.value};
       await _updateStatusProvider.updateStatus(data, todoId);
     } catch (e) {
+      await _homeController.getUserData();
       Get.snackbar(
         'Error',
         e.toString(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fullstack_todo_app/app/modules/home/AddTask/providers/add_task_provider.dart';
+import 'package:fullstack_todo_app/app/modules/home/controllers/home_controller.dart';
 import 'package:get/get.dart';
 
 class AddTaskController extends GetxController {
@@ -15,6 +16,8 @@ class AddTaskController extends GetxController {
   var titleController = TextEditingController().obs;
   var descriptionController = TextEditingController().obs;
 
+  final HomeController _homeController = Get.find();
+
   Future addTask() async {
     try {
       isLoading.value = true;
@@ -25,6 +28,7 @@ class AddTaskController extends GetxController {
       };
       final response = await _addTaskProvider.addTask(data);
       if (response != null) {
+        await _homeController.getUserData();
         Get.back();
         Get.snackbar(
           'Success',
