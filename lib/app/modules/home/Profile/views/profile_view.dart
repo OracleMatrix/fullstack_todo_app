@@ -85,10 +85,7 @@ class ProfileView extends GetView<ProfileController> {
                         const SizedBox(width: 8),
                         Text(
                           user.email ?? 'N/A',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.black87,
-                          ),
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ],
                     ),
@@ -137,12 +134,7 @@ class ProfileView extends GetView<ProfileController> {
           ),
         ),
         const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            value,
-            style: const TextStyle(fontSize: 16, color: Colors.black87),
-          ),
-        ),
+        Expanded(child: Text(value, style: const TextStyle(fontSize: 16))),
       ],
     );
   }
