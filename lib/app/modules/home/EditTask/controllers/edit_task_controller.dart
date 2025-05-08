@@ -55,6 +55,7 @@ class EditTaskController extends GetxController {
           colorText: Colors.white,
           icon: Icon(Icons.check_circle, color: Colors.white),
         );
+        await _homeController.getUserData();
       }
     } catch (e) {
       Get.snackbar(
@@ -83,6 +84,7 @@ class EditTaskController extends GetxController {
           colorText: Colors.white,
           icon: Icon(Icons.check_circle, color: Colors.white),
         );
+        await _homeController.getUserData();
       }
     } catch (e) {
       Get.snackbar(
@@ -102,8 +104,8 @@ class EditTaskController extends GetxController {
       isLoading.value = true;
       final data = {'status': status.value};
       await _updateStatusProvider.updateStatus(data, todoId);
-    } catch (e) {
       await _homeController.getUserData();
+    } catch (e) {
       Get.snackbar(
         'Error',
         e.toString(),
