@@ -143,7 +143,52 @@ class ProfileView extends GetView<ProfileController> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: MaterialButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.defaultDialog(
+                                title: 'Delete User',
+                                content: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.dangerous,
+                                        color: Colors.red,
+                                        size: 60,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Are you sure you want to delete account?\nAll of your data and TODOs will be deleted',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: Text(
+                                      'NO',
+                                      style: TextStyle(color: Colors.green),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.back();
+                                      controller.deleteUser();
+                                    },
+                                    child: Text(
+                                      'YES',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                             color: Colors.red,
                             textColor: Colors.white,
                             child: Text('Delete'),
