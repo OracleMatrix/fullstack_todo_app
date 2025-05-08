@@ -40,79 +40,120 @@ class ProfileView extends GetView<ProfileController> {
         return SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
           child: Center(
-            child: Card(
-              elevation: 8,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              shadowColor: Colors.blueAccent.withOpacity(0.4),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 32,
-                  horizontal: 24,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.blueAccent,
-                      child: Text(
-                        user.username != null && user.username!.isNotEmpty
-                            ? user.username![0].toUpperCase()
-                            : 'U',
-                        style: const TextStyle(
-                          fontSize: 40,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+            child: Column(
+              children: [
+                Card(
+                  elevation: 8,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  shadowColor: Colors.blueAccent.withOpacity(0.4),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 32,
+                      horizontal: 24,
                     ),
-                    const SizedBox(height: 24),
-                    Text(
-                      user.username ?? 'N/A',
-                      style: const TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blueAccent,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
+                    child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.email, color: Colors.grey),
-                        const SizedBox(width: 8),
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.blueAccent,
+                          child: Text(
+                            user.username != null && user.username!.isNotEmpty
+                                ? user.username![0].toUpperCase()
+                                : 'U',
+                            style: const TextStyle(
+                              fontSize: 40,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 24),
                         Text(
-                          user.email ?? 'N/A',
-                          style: const TextStyle(fontSize: 16),
+                          user.username ?? 'N/A',
+                          style: const TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueAccent,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.email, color: Colors.grey),
+                            const SizedBox(width: 8),
+                            Text(
+                              user.email ?? 'N/A',
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 24),
+                        Divider(
+                          color: Colors.blueAccent.withOpacity(0.3),
+                          thickness: 1,
+                        ),
+                        const SizedBox(height: 24),
+                        _buildInfoRow(
+                          Icons.calendar_today,
+                          'Created At',
+                          user.createdAt != null
+                              ? user.createdAt!.toLocal().toString().split(
+                                '.',
+                              )[0]
+                              : 'N/A',
+                        ),
+                        const SizedBox(height: 16),
+                        _buildInfoRow(
+                          Icons.update,
+                          'Updated At',
+                          user.updatedAt != null
+                              ? user.updatedAt!.toLocal().toString().split(
+                                '.',
+                              )[0]
+                              : 'N/A',
                         ),
                       ],
                     ),
-                    const SizedBox(height: 24),
-                    Divider(
-                      color: Colors.blueAccent.withOpacity(0.3),
-                      thickness: 1,
-                    ),
-                    const SizedBox(height: 24),
-                    _buildInfoRow(
-                      Icons.calendar_today,
-                      'Created At',
-                      user.createdAt != null
-                          ? user.createdAt!.toLocal().toString().split('.')[0]
-                          : 'N/A',
-                    ),
-                    const SizedBox(height: 16),
-                    _buildInfoRow(
-                      Icons.update,
-                      'Updated At',
-                      user.updatedAt != null
-                          ? user.updatedAt!.toLocal().toString().split('.')[0]
-                          : 'N/A',
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Card(
+                    elevation: 8,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    shadowColor: Colors.blueAccent.withOpacity(0.4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: MaterialButton(
+                            onPressed: () {},
+                            color: Colors.blue,
+                            textColor: Colors.white,
+                            child: Text('Update'),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: MaterialButton(
+                            onPressed: () {},
+                            color: Colors.red,
+                            textColor: Colors.white,
+                            child: Text('Delete'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         );
