@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -134,7 +136,185 @@ class ProfileView extends GetView<ProfileController> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: MaterialButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.bottomSheet(
+                                isScrollControlled: true,
+                                enableDrag: true,
+                                Container(
+                                  height: Get.height * 0.6,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(16),
+                                      topRight: Radius.circular(16),
+                                    ),
+                                    color: Colors.grey.shade800,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Form(
+                                      key: controller.formKey,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SingleChildScrollView(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              children: [
+                                                TextFormField(
+                                                  controller:
+                                                      controller
+                                                          .userNameController
+                                                          .value,
+                                                  decoration: InputDecoration(
+                                                    labelText: 'Username',
+                                                    prefixIcon: Icon(
+                                                      Icons.person,
+                                                    ),
+                                                    border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            12,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                  validator: (value) {
+                                                    if (value == null ||
+                                                        value.trim().isEmpty) {
+                                                      return 'Username is required';
+                                                    }
+                                                    return null;
+                                                  },
+                                                ),
+                                                const SizedBox(height: 16),
+                                                TextFormField(
+                                                  controller:
+                                                      controller
+                                                          .emailController
+                                                          .value,
+                                                  decoration: InputDecoration(
+                                                    labelText: 'Email',
+                                                    prefixIcon: Icon(
+                                                      Icons.email,
+                                                    ),
+                                                    border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            12,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                  keyboardType:
+                                                      TextInputType
+                                                          .emailAddress,
+                                                  validator: (value) {
+                                                    if (value == null ||
+                                                        value.trim().isEmpty) {
+                                                      return 'Email is required';
+                                                    }
+                                                    final emailRegex = RegExp(
+                                                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                                                    );
+                                                    if (!emailRegex.hasMatch(
+                                                      value,
+                                                    )) {
+                                                      return 'Enter a valid email';
+                                                    }
+                                                    return null;
+                                                  },
+                                                ),
+                                                const SizedBox(height: 16),
+                                                TextFormField(
+                                                  controller:
+                                                      controller
+                                                          .passwordController
+                                                          .value,
+                                                  decoration: InputDecoration(
+                                                    labelText: 'Password',
+                                                    prefixIcon: Icon(
+                                                      Icons.lock,
+                                                    ),
+                                                    border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            12,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                  obscureText: true,
+                                                  validator: (value) {
+                                                    if (value == null ||
+                                                        value.isEmpty) {
+                                                      return 'Password is required';
+                                                    }
+                                                    if (value.length < 6) {
+                                                      return 'Password must be at least 6 characters';
+                                                    }
+                                                    return null;
+                                                  },
+                                                ),
+                                                const SizedBox(height: 16),
+                                                TextFormField(
+                                                  controller:
+                                                      controller
+                                                          .confPasswordController
+                                                          .value,
+                                                  decoration: InputDecoration(
+                                                    labelText:
+                                                        'Confirm Password',
+                                                    prefixIcon: Icon(
+                                                      Icons.lock_outline,
+                                                    ),
+                                                    border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            12,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                  obscureText: true,
+                                                  validator: (value) {
+                                                    if (value == null ||
+                                                        value.isEmpty) {
+                                                      return 'Confirm password is required';
+                                                    }
+                                                    if (value !=
+                                                        controller
+                                                            .passwordController
+                                                            .value
+                                                            .text) {
+                                                      return 'Passwords do not match';
+                                                    }
+                                                    return null;
+                                                  },
+                                                ),
+                                                const SizedBox(height: 24),
+                                                MaterialButton(
+                                                  onPressed: () {
+                                                    if (controller
+                                                            .formKey
+                                                            .currentState
+                                                            ?.validate() ??
+                                                        false) {
+                                                      controller.updateUser();
+                                                      Get.back();
+                                                    }
+                                                  },
+                                                  color: Colors.blue,
+                                                  textColor: Colors.white,
+                                                  child: Text('Update'),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                             color: Colors.blue,
                             textColor: Colors.white,
                             child: Text('Update'),

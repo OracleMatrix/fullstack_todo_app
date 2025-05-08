@@ -2,11 +2,12 @@ import 'package:fullstack_todo_app/app/data/Constants/consts.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class DeleteUserProvider extends GetConnect {
-  Future deleteUser() async {
+class UpdateUserProvider extends GetConnect {
+  Future updateUser(Map<String, dynamic> data) async {
     try {
-      final response = await delete(
+      final response = await put(
         '${Constants.baseUrl}/api/users/${await GetStorage().read(Constants.userIdKey)}',
+        data,
         headers: {
           'authentication': await GetStorage().read(Constants.tokenKey),
         },
