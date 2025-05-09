@@ -241,18 +241,49 @@ class HomeView extends GetView<HomeController> {
                   } else if (direction == DismissDirection.endToStart) {
                     // Swipe right to left: delete
                     final confirm = await Get.defaultDialog<bool>(
-                      title: 'Confirm Delete',
-                      middleText: 'Are you sure you want to delete this task?',
-                      textConfirm: 'Delete',
-                      textCancel: 'Cancel',
-                      confirmTextColor: Colors.white,
-                      onConfirm: () {
-                        Get.back(result: true);
-                      },
-                      onCancel: () {
-                        Get.back(result: false);
-                      },
+                      title: 'Confirmation',
+                      content: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                              size: 60,
+                            ),
+                          ),
+                          Text(
+                            'Are you sure you want to delete this task?',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Get.back(result: false);
+                          },
+                          child: Text(
+                            'NO',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            Get.back(result: true);
+                          },
+                          child: Text(
+                            'YES',
+                            style: TextStyle(color: Colors.green),
+                          ),
+                        ),
+                      ],
                     );
+
                     if (confirm == true) {
                       await editTaskController.deleteTask(todo.id!);
                       return true; // allow dismiss animation to remove item
