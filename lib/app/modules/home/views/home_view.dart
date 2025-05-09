@@ -19,74 +19,71 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     final EditTaskController editTaskController = Get.put(EditTaskController());
     controller.getUserData();
-    return RefreshIndicator(
-      onRefresh: () => controller.getUserData(),
-      child: Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-              onPressed: () async {
-                Get.defaultDialog(
-                  title: 'LOGOUT',
-                  content: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.warning,
-                          color: Colors.yellow,
-                          size: 50,
-                        ),
-                      ),
-                      Text('Are you sure you want to logout?'),
-                    ],
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      child: Text(
-                        'Cancel',
-                        style: TextStyle(color: Colors.red),
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () async {
+              Get.defaultDialog(
+                title: 'LOGOUT',
+                content: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.warning,
+                        color: Colors.yellow,
+                        size: 50,
                       ),
                     ),
-                    TextButton(
-                      onPressed: () async {
-                        Get.back();
-                        await GetStorage().remove(Constants.tokenKey);
-                        Get.offAllNamed(Routes.AUTHENTICATION);
-                      },
-                      child: Text('YES', style: TextStyle(color: Colors.green)),
-                    ),
+                    Text('Are you sure you want to logout?'),
                   ],
-                );
-              },
-              icon: Icon(Icons.logout_rounded),
-            ),
-            IconButton(
-              onPressed: () async {
-                Get.toNamed(Routes.PROFILE);
-              },
-              icon: Icon(Icons.person),
-            ),
-          ],
-          title: const Text('T O D O'),
-          centerTitle: true,
-          elevation: 4,
-          backgroundColor: Colors.blueAccent,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: Text('Cancel', style: TextStyle(color: Colors.red)),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      Get.back();
+                      await GetStorage().remove(Constants.tokenKey);
+                      Get.offAllNamed(Routes.AUTHENTICATION);
+                    },
+                    child: Text('YES', style: TextStyle(color: Colors.green)),
+                  ),
+                ],
+              );
+            },
+            icon: Icon(Icons.logout_rounded),
           ),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(Get.height * 0.07),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SearchBar(hintText: 'Search task...'),
-            ),
+          IconButton(
+            onPressed: () async {
+              Get.toNamed(Routes.PROFILE);
+            },
+            icon: Icon(Icons.person),
+          ),
+        ],
+        title: const Text('T O D O'),
+        centerTitle: true,
+        elevation: 4,
+        backgroundColor: Colors.blueAccent,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
+        ),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(Get.height * 0.07),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SearchBar(hintText: 'Search task...'),
           ),
         ),
-        body: Obx(() {
+      ),
+      body: RefreshIndicator(
+        onRefresh: () => controller.getUserData(),
+        child: Obx(() {
           if (controller.isLoading.value) {
             return Center(
               child: LoadingAnimationWidget.dotsTriangle(
@@ -197,11 +194,50 @@ class HomeView extends GetView<HomeController> {
                 confirmDismiss: (direction) async {
                   if (direction == DismissDirection.startToEnd) {
                     // Swipe left to right: mark as done
-                    await controller.markAsCompleted(todo.id!);
-                    // Remove the item from the list to update UI
-                    controller.userData.value.todos?.removeAt(index);
-                    controller.userData.refresh();
-                    return true; // allow dismiss animation to remove item
+                    Get.defaultDialog(
+                      title: 'Confirmation',
+                      content: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.check_circle,
+                              color: Colors.green,
+                              size: 60,
+                            ),
+                          ),
+                          Text(
+                            'Are you sure you want to mark this task as complete?',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: Text(
+                            'NO',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            Get.back();
+                            await controller.markAsCompleted(todo.id!);
+                          },
+                          child: Text(
+                            'YES',
+                            style: TextStyle(color: Colors.green),
+                          ),
+                        ),
+                      ],
+                    );
                   } else if (direction == DismissDirection.endToStart) {
                     // Swipe right to left: delete
                     final confirm = await Get.defaultDialog<bool>(
@@ -219,9 +255,6 @@ class HomeView extends GetView<HomeController> {
                     );
                     if (confirm == true) {
                       await editTaskController.deleteTask(todo.id!);
-                      // Remove the item from the list to update UI
-                      controller.userData.value.todos?.removeAt(index);
-                      controller.userData.refresh();
                       return true; // allow dismiss animation to remove item
                     } else {
                       return false;
@@ -327,11 +360,11 @@ class HomeView extends GetView<HomeController> {
             },
           );
         }),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => Get.toNamed(Routes.ADD_TASK),
-          backgroundColor: Colors.blue,
-          child: Icon(Icons.playlist_add_rounded),
-        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.toNamed(Routes.ADD_TASK),
+        backgroundColor: Colors.blue,
+        child: Icon(Icons.playlist_add_rounded),
       ),
     );
   }
