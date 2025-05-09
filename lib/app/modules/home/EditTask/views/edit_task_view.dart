@@ -179,7 +179,43 @@ class EditTaskView extends GetView<EditTaskController> {
               heroTag: 'delete',
               backgroundColor: Colors.red,
               onPressed: () {
-                controller.deleteTask(todoId);
+                Get.defaultDialog(
+                  title: 'Confirmation',
+                  content: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(Icons.delete, color: Colors.red, size: 60),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Are you sure you want to delete this task?',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: Text('NO', style: TextStyle(color: Colors.red)),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        Get.back();
+                        controller.deleteTask(todoId);
+                      },
+                      child: Text('YES', style: TextStyle(color: Colors.green)),
+                    ),
+                  ],
+                );
               },
               icon: Icon(Icons.delete),
               label: Text('Delete'),
