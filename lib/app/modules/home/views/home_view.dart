@@ -206,13 +206,16 @@ class HomeView extends GetView<HomeController> {
                               size: 60,
                             ),
                           ),
-                          Text(
-                            'Are you sure you want to mark this task as complete?',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Are you sure you want to mark this task as complete?',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),
@@ -252,13 +255,16 @@ class HomeView extends GetView<HomeController> {
                               size: 60,
                             ),
                           ),
-                          Text(
-                            'Are you sure you want to delete this task?',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Are you sure you want to delete this task?',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),
