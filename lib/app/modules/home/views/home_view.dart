@@ -26,8 +26,41 @@ class HomeView extends GetView<HomeController> {
           actions: [
             IconButton(
               onPressed: () async {
-                await GetStorage().remove(Constants.tokenKey);
-                Get.offAllNamed(Routes.AUTHENTICATION);
+                Get.defaultDialog(
+                  title: 'LOGOUT',
+                  content: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.warning,
+                          color: Colors.yellow,
+                          size: 50,
+                        ),
+                      ),
+                      Text('Are you sure you want to logout?'),
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        Get.back();
+                        await GetStorage().remove(Constants.tokenKey);
+                        Get.offAllNamed(Routes.AUTHENTICATION);
+                      },
+                      child: Text('YES', style: TextStyle(color: Colors.green)),
+                    ),
+                  ],
+                );
               },
               icon: Icon(Icons.logout_rounded),
             ),
