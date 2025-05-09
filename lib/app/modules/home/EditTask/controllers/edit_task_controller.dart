@@ -103,7 +103,12 @@ class EditTaskController extends GetxController {
     try {
       isLoading.value = true;
       final data = {'status': status.value};
-      await _updateStatusProvider.updateStatus(data, todoId);
+      if (status.value == 'completed') {
+        _homeController.markAsCompleted(todoId);
+        _updateStatusProvider.updateStatus(data, todoId);
+      } else {
+        await _updateStatusProvider.updateStatus(data, todoId);
+      }
       await _homeController.getUserData();
     } catch (e) {
       Get.snackbar(
