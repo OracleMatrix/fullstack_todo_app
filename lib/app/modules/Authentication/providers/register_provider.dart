@@ -12,9 +12,9 @@ class RegisterProvider extends GetConnect {
         if (response.status.isOk) {
           return response.body;
         } else if (response.status.isServerError) {
-          throw 'Server is not reachable\nPlease try again later';
+          throw response.body['message'];
         } else if (response.status.isNotFound) {
-          throw 'Not Found!';
+          throw response.body['message'];
         } else if (response.status.isForbidden) {
           throw 'Bad request\nCheck data and try again...';
         } else {
