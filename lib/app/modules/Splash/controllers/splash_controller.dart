@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fullstack_todo_app/app/data/Constants/consts.dart';
+import 'package:fullstack_todo_app/app/modules/Splash/providers/refresh_token_provider.dart';
 import 'package:fullstack_todo_app/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class SplashController extends GetxController {
+  final RefreshTokenProvider _refreshTokenProvider = RefreshTokenProvider();
+
   Future checkUser() async {
     try {
       final token = await GetStorage().read(Constants.tokenKey);
@@ -12,7 +15,11 @@ class SplashController extends GetxController {
       final userName = await GetStorage().read(Constants.userNameKey);
 
       if (token != null && userId != null && userName != null) {
-        Get.offAllNamed(Routes.HOME);
+        final newToken = await _refreshTokenProvider.refreshToken();
+        if (newToken != null) {
+          await GetStorage().write(Constants.tokenKey, newToken['token']);
+          Get.offAllNamed(Routes.HOME);
+        }
       } else {
         Get.offAllNamed(Routes.AUTHENTICATION);
       }
