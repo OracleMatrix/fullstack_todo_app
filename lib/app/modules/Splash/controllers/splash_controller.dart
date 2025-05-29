@@ -17,6 +17,7 @@ class SplashController extends GetxController {
       if (token != null && userId != null && userName != null) {
         final newToken = await _refreshTokenProvider.refreshToken();
         if (newToken != null) {
+          await GetStorage().remove(Constants.tokenKey);
           await GetStorage().write(Constants.tokenKey, newToken['token']);
           Get.offAllNamed(Routes.HOME);
         }
