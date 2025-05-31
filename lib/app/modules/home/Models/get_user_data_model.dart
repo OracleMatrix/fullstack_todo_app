@@ -56,6 +56,7 @@ class Todo {
   String? description;
   String? status;
   String? priority;
+  String? category;
   int? userId;
   DateTime? completedAt;
   DateTime? createdAt;
@@ -67,6 +68,7 @@ class Todo {
     this.description,
     this.status,
     this.priority,
+    this.category,
     this.userId,
     this.completedAt,
     this.createdAt,
@@ -79,6 +81,7 @@ class Todo {
     description: json["description"],
     status: json["status"],
     priority: json["priority"],
+    category: json["category"],
     userId: json["userId"],
     completedAt:
         json["completedAt"] == null
@@ -96,6 +99,7 @@ class Todo {
     "description": description,
     "status": status,
     "priority": priority,
+    "category": category,
     "userId": userId,
     "completedAt": completedAt?.toIso8601String(),
     "createdAt": createdAt?.toIso8601String(),
