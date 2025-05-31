@@ -26,6 +26,7 @@ class EditTaskController extends GetxController {
 
   var titleController = TextEditingController().obs;
   var descriptionController = TextEditingController().obs;
+  var categoryController = TextEditingController().obs;
 
   var _updateStatusProvider = UpdateStatusProvider();
   get updateStatusProvider => _updateStatusProvider;
@@ -41,6 +42,7 @@ class EditTaskController extends GetxController {
         'title': titleController.value.text,
         'description': descriptionController.value.text,
         'priority': priority.value,
+        'category': categoryController.value.text,
         'userId': await GetStorage().read(Constants.userIdKey),
       };
       final response = await _updateTodoProvider.updateTodo(data, todoId);

@@ -1,7 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import '../controllers/edit_task_controller.dart';
@@ -17,6 +16,7 @@ class EditTaskView extends GetView<EditTaskController> {
     controller.titleController.value.text = todo.title;
     controller.descriptionController.value.text = todo.description;
     controller.priority.value = todo.priority;
+    controller.categoryController.value.text = todo.category;
     controller.status.value = todo.status;
 
     return Scaffold(
@@ -77,6 +77,23 @@ class EditTaskView extends GetView<EditTaskController> {
                             ),
                           ),
                           Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              controller: controller.categoryController.value,
+                              decoration: InputDecoration(
+                                hintText: 'Category',
+                                filled: true,
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                              validator: (value) {
+                                return null;
+                              },
+                            ),
+                          ),
+                          Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 8.0,
                               vertical: 12,
@@ -85,7 +102,6 @@ class EditTaskView extends GetView<EditTaskController> {
                               () => DropdownButtonFormField<String>(
                                 value: controller.priority.value,
                                 decoration: InputDecoration(
-                                  labelText: 'Priority',
                                   filled: true,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(16),
@@ -124,7 +140,6 @@ class EditTaskView extends GetView<EditTaskController> {
                               () => DropdownButtonFormField<String>(
                                 value: controller.status.value,
                                 decoration: InputDecoration(
-                                  labelText: 'Status',
                                   filled: true,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(16),
