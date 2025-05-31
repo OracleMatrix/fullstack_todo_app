@@ -205,9 +205,32 @@ Obx showSearchResults(
                   vertical: 8,
                 ),
                 leading: Icon(statusIcon, color: statusColor, size: 32),
-                title: Text(
-                  todo.title ?? 'No title',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      todo.title ?? 'No title',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 4),
+                      padding: EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: Colors.blueAccent,
+                      ),
+                      child: Text(
+                        todo.category ?? 'No category',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -218,10 +241,7 @@ Obx showSearchResults(
                         padding: const EdgeInsets.only(top: 4.0),
                         child: Text(
                           todo.description!,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[700],
-                          ),
+                          style: TextStyle(fontSize: 14),
                         ),
                       ),
                     Padding(
