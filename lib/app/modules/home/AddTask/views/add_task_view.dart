@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import '../controllers/add_task_controller.dart';
 
 class AddTaskView extends GetView<AddTaskController> {
   const AddTaskView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
@@ -67,6 +67,23 @@ class AddTaskView extends GetView<AddTaskController> {
                             ),
                           ),
                           Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              controller: controller.categoryController.value,
+                              decoration: InputDecoration(
+                                hintText: 'Category',
+                                filled: true,
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                              validator: (value) {
+                                return null;
+                              },
+                            ),
+                          ),
+                          Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 8.0,
                               vertical: 12,
@@ -75,7 +92,6 @@ class AddTaskView extends GetView<AddTaskController> {
                               () => DropdownButtonFormField<String>(
                                 value: controller.priority.value,
                                 decoration: InputDecoration(
-                                  labelText: 'Priority',
                                   filled: true,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(16),

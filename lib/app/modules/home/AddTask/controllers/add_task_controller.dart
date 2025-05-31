@@ -7,6 +7,7 @@ class AddTaskController extends GetxController {
   var isLoading = false.obs;
 
   var _addTaskProvider = AddTaskProvider();
+
   get addTaskProvider => _addTaskProvider;
 
   set addTaskProvider(var value) => _addTaskProvider = value;
@@ -15,6 +16,7 @@ class AddTaskController extends GetxController {
 
   var titleController = TextEditingController().obs;
   var descriptionController = TextEditingController().obs;
+  var categoryController = TextEditingController().obs;
 
   final HomeController _homeController = Get.find();
 
@@ -25,6 +27,7 @@ class AddTaskController extends GetxController {
         'title': titleController.value.text,
         'description': descriptionController.value.text,
         'priority': priority.value,
+        'category': categoryController.value.text,
       };
       final response = await _addTaskProvider.addTask(data);
       if (response != null) {
